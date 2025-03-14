@@ -50,7 +50,7 @@ export default function Home() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">My Orders</h1>
         <Link href="/new" className={buttonVariants({ variant: "secondary" })}>
-          Create Task
+          Create Order
         </Link>
       </div>
 
