@@ -22,16 +22,16 @@ export default function Home() {
     fetch("http://127.0.0.1:8000/orders")
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Error al obtener órdenes");
+          throw new Error("Error getting orders");
         }
         return response.json();
       })
       .then((data) => {
-        console.log("📌 Órdenes obtenidas:", data);
+        console.log("Órdenes obtained: ", data);
         setOrders(data);
       })
       .catch((error) => {
-        console.error("❌ Error en la carga de órdenes:", error);
+        console.error("Error getting orders:", error);
         setError(error);
       })
       .finally(() => setLoading(false));
@@ -82,7 +82,7 @@ export default function Home() {
                     Edit
                   </Link>
                   <OrderButtonDelete orderId={order.id} setOrders={setOrders} />
-                  </TableCell>
+                </TableCell>
               </TableRow>
             ))
           ) : (

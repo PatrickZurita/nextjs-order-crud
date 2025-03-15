@@ -70,7 +70,7 @@ export function OrderForm({ orderId }: { orderId?: number }) {
         }
 
         const orderData = await response.json();
-        console.log("📥 Orden obtenida:", orderData);
+        console.log("Get order by id:", orderData);
 
         setOrderNumber(orderData.order_number);
 
@@ -89,7 +89,7 @@ export function OrderForm({ orderId }: { orderId?: number }) {
           setSelectedProducts([]);
         }
       } catch (error) {
-        console.error("❌ Error obteniendo la orden:", error);
+        console.error("Error getting order:", error);
         setErrorMessage("Error loading order data.");
       } finally {
         setIsLoading(false);
@@ -118,7 +118,7 @@ export function OrderForm({ orderId }: { orderId?: number }) {
             quantity: newQuantity,
           },
         ];
-        console.log("📌 Producto agregado:", newProducts);
+        console.log("Product added:", newProducts);
         return newProducts;
       });
       setIsAddModalOpen(false);
@@ -134,7 +134,7 @@ export function OrderForm({ orderId }: { orderId?: number }) {
           ? { ...p, quantity: Math.max(1, quantity) }
           : p
       );
-      console.log("✏ Cantidad actualizada:", updatedProducts);
+      console.log("Updated products:", updatedProducts);
       return updatedProducts;
     });
   };
@@ -142,13 +142,13 @@ export function OrderForm({ orderId }: { orderId?: number }) {
   const removeProductFromOrder = (productId: number) => {
     setSelectedProducts((prev) => {
       const updatedProducts = prev.filter((p) => p.product_id !== productId);
-      console.log("🗑 Producto eliminado:", updatedProducts);
+      console.log("Deleted product:", updatedProducts);
       return updatedProducts;
     });
   };
 
   const handleSubmit = async () => {
-    setErrorMessage(null); 
+    setErrorMessage(null);
 
     const orderData = {
       order_number: orderNumber,
@@ -157,16 +157,16 @@ export function OrderForm({ orderId }: { orderId?: number }) {
         (sum, p) => sum + p.unit_price * p.quantity,
         0
       ),
-      products: selectedProducts.map(({ name, ...rest }) => rest), 
+      products: selectedProducts.map(({ name, ...rest }) => rest),
     };
 
-    console.log("🚀 Enviando orden:", orderData);
+    console.log("Sent order:", orderData);
 
     try {
       const url = orderId
         ? `http://127.0.0.1:8000/orders/${orderId}`
         : "http://127.0.0.1:8000/orders";
-      const method = orderId ? "PUT" : "POST"; 
+      const method = orderId ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method: method,
@@ -178,18 +178,17 @@ export function OrderForm({ orderId }: { orderId?: number }) {
 
       if (!response.ok) {
         throw new Error(
-          `Error al ${orderId ? "actualizar" : "crear"} la orden`
+          `Error ${orderId ? "updating" : "creating"} order`
         );
       }
 
-      console.log(`✅ Orden ${orderId ? "actualizada" : "creada"} con éxito`);
+      console.log(`Order ${orderId ? "updated" : "created"} successfully`);
       router.push("/");
     } catch (error) {
-      console.error("❌ Error al enviar la orden:", error);
+      console.error("Error sent order: ", error);
       setErrorMessage(
-        `Ocurrió un error al ${
-          orderId ? "actualizar" : "crear"
-        } la orden. Inténtalo nuevamente.`
+        `Error ${orderId ? "updating" : "creating"
+        } order: ${error}`
       );
     }
   };
@@ -322,7 +321,7 @@ export function OrderForm({ orderId }: { orderId?: number }) {
                           />
                           <Button
                             onClick={() =>
-                              console.log("📝 Producto editado:", product)
+                              console.log("Product edited: ", product)
                             }
                           >
                             Confirm

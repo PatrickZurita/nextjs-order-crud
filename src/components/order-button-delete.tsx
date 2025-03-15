@@ -8,7 +8,7 @@ export function OrderButtonDelete({
   setOrders,
 }: {
   orderId: number;
-  setOrders: React.Dispatch<React.SetStateAction<any[]>>; // ✅ Tipo correcto
+  setOrders: React.Dispatch<React.SetStateAction<any[]>>;
 }) {
   const [loading, setLoading] = useState(false);
 
@@ -26,12 +26,11 @@ export function OrderButtonDelete({
         throw new Error("Failed to delete order");
       }
 
-      console.log(`✅ Order ${orderId} deleted successfully`);
+      console.log(`Order ${orderId} deleted successfully`);
 
-      // 🔥 Ahora sí es compatible con el tipo correcto
       setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
     } catch (error) {
-      console.error("❌ Error deleting order:", error);
+      console.error("Error deleting order:", error);
       alert("Error deleting order.");
     } finally {
       setLoading(false);
