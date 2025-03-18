@@ -1,49 +1,15 @@
 "use client";
 
-import * as React from "react";
+import { OrderTable } from "@/components/order-table";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { OrderButtonDelete } from "@/components/order-button-delete";
+import { useOrders } from "@/hooks/useOrders";
 
 export default function Home() {
-  const [orders, setOrders] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
+  const { orders, setOrders, loading, error } = useOrders();
 
-  React.useEffect(() => {
-    fetch("http://127.0.0.1:8000/orders")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error getting orders");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Órdenes obtained: ", data);
-        setOrders(data);
-      })
-      .catch((error) => {
-        console.error("Error getting orders:", error);
-        setError(error);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) {
-    return <p className="p-6 text-center">Loading orders...</p>;
-  }
-
-  if (error) {
-    return <p className="p-6 text-center text-red-500">Error loading orders.</p>;
-  }
+  if (loading) return <p className="p-6 text-center">Loading orders...</p>;
+  if (error) return <p className="p-6 text-center text-red-500">{error}</p>;
 
   return (
     <div className="p-6">
@@ -54,46 +20,7 @@ export default function Home() {
         </Link>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Order #</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead># Products</TableHead>
-            <TableHead>Final Price</TableHead>
-            <TableHead>Options</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {orders.length > 0 ? (
-            orders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell>{order.id}</TableCell>
-                <TableCell>{order.order_number}</TableCell>
-                <TableCell>{order.date}</TableCell>
-                <TableCell>{order.products?.length || 0}</TableCell>
-                <TableCell>${order.final_price}</TableCell>
-                <TableCell className="flex gap-2">
-                  <Link
-                    href={`/orders/${order.id}/edit`}
-                    className={buttonVariants({ variant: "secondary" })}
-                  >
-                    Edit
-                  </Link>
-                  <OrderButtonDelete orderId={order.id} setOrders={setOrders} />
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={6} className="text-center">
-                No orders found.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+      <OrderTable orders={orders} setOrders={setOrders} />
     </div>
   );
 }

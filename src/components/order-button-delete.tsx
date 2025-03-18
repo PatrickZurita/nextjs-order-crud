@@ -1,15 +1,14 @@
 "use client";
 
-import { Button } from "./ui/button";
 import { useState } from "react";
+import { Button } from "./ui/button";
+import { deleteOrder } from "@/services/orderService";
+import { OrderButtonDeleteProps } from "@/types/order";
 
 export function OrderButtonDelete({
   orderId,
   setOrders,
-}: {
-  orderId: number;
-  setOrders: React.Dispatch<React.SetStateAction<any[]>>;
-}) {
+}: OrderButtonDeleteProps) {
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
@@ -18,17 +17,12 @@ export function OrderButtonDelete({
     setLoading(true);
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/orders/${orderId}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete order");
-      }
-
+      await deleteOrder(orderId);
       console.log(`Order ${orderId} deleted successfully`);
 
-      setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
+      setOrders((prevOrders) =>
+        prevOrders.filter((order) => order.id !== orderId)
+      );
     } catch (error) {
       console.error("Error deleting order:", error);
       alert("Error deleting order.");
