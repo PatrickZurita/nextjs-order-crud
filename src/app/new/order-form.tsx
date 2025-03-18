@@ -32,7 +32,7 @@ import {
 import { useRouter } from "next/navigation";
 import { OrderProduct } from "@/types/order";
 import { availableProducts } from "@/lib/utils";
-import { useOrder } from "@/hooks/useOrders";
+import { useOrder } from "@/hooks/useOrder";
 import { AddProductDialog } from "@/components/add-product-dialog";
 import { SelectedProductsTable } from "@/components/selected-product-table";
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { useOrders } from "@/hooks/useOrders";
 import { OrderTable } from "@/components/order-table";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { useOrders } from "@/hooks/useOrders";
 
 export default function Home() {
   const { orders, setOrders, loading, error } = useOrders();

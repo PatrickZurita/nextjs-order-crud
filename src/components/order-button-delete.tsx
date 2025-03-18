@@ -5,7 +5,10 @@ import { Button } from "./ui/button";
 import { deleteOrder } from "@/services/orderService";
 import { OrderButtonDeleteProps } from "@/types/order";
 
-export function OrderButtonDelete({ orderId, setOrders }: OrderButtonDeleteProps) {
+export function OrderButtonDelete({
+  orderId,
+  setOrders,
+}: OrderButtonDeleteProps) {
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
@@ -17,7 +20,9 @@ export function OrderButtonDelete({ orderId, setOrders }: OrderButtonDeleteProps
       await deleteOrder(orderId);
       console.log(`Order ${orderId} deleted successfully`);
 
-      setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
+      setOrders((prevOrders) =>
+        prevOrders.filter((order) => order.id !== orderId)
+      );
     } catch (error) {
       console.error("Error deleting order:", error);
       alert("Error deleting order.");

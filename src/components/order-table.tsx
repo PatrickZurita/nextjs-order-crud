@@ -1,35 +1,57 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { OrderTableProps } from "@/types/order";
 import Link from "next/link";
 import { OrderButtonDelete } from "./order-button-delete";
-import { OrderTableProps } from "@/types/order";
+import { buttonVariants } from "@/components/ui/button";
 
 export function OrderTable({ orders, setOrders }: OrderTableProps) {
-    return (
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Order #</th>
-                    <th>Date</th>
-                    <th># Products</th>
-                    <th>Final Price</th>
-                    <th>Options</th>
-                </tr>
-            </thead>
-            <tbody>
-                {orders.map((order) => (
-                    <tr key={order.id}>
-                        <td>{order.id}</td>
-                        <td>{order.order_number}</td>
-                        <td>{order.date}</td>
-                        <td>{order.products?.length || 0}</td>
-                        <td>${order.final_price}</td>
-                        <td>
-                            <Link href={`/orders/${order.id}/edit`}>Edit</Link>
-                            <OrderButtonDelete orderId={order.id} setOrders={setOrders} />
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-    );
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>ID</TableHead>
+          <TableHead>Order #</TableHead>
+          <TableHead>Date</TableHead>
+          <TableHead># Products</TableHead>
+          <TableHead>Final Price</TableHead>
+          <TableHead>Options</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {orders.length > 0 ? (
+          orders.map((order) => (
+            <TableRow key={order.id}>
+              <TableCell>{order.id}</TableCell>
+              <TableCell>{order.order_number}</TableCell>
+              <TableCell>{order.date}</TableCell>
+              <TableCell>{order.products?.length || 0}</TableCell>
+              <TableCell>${order.final_price}</TableCell>
+              <TableCell className="flex gap-2">
+                <Link
+                  href={`/orders/${order.id}/edit`}
+                  className={buttonVariants({ variant: "secondary" })}
+                >
+                  Edit
+                </Link>
+                <OrderButtonDelete orderId={order.id} setOrders={setOrders} />
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={6} className="text-center">
+              No orders found.
+            </TableCell>
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
+  );
 }
