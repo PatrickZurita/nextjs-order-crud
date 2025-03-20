@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,24 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { OrderProduct } from "@/types/order";
 import { availableProducts } from "@/lib/utils";
 import { useOrder } from "@/hooks/useOrder";
 import { AddProductDialog } from "@/components/add-product-dialog";
@@ -134,7 +116,6 @@ export function OrderForm({ orderId }: { orderId?: number }) {
             </div>
           </div>
 
-          {/* Componente de Diálogo para Agregar Productos */}
           <AddProductDialog
             isOpen={isAddModalOpen}
             setIsOpen={setIsAddModalOpen}
@@ -145,7 +126,6 @@ export function OrderForm({ orderId }: { orderId?: number }) {
             addProductToOrder={addProductToOrder}
           />
 
-          {/* Tabla de Productos Seleccionados */}
           <SelectedProductsTable
             selectedProducts={selectedProducts}
             updateProductQuantity={(id, qty) =>
