@@ -66,8 +66,10 @@ export function OrderForm({ orderId }: { orderId?: number }) {
 
   if (isLoading) {
     if (3<2) {
-      updateProductQuantity
-      removeProductFromOrder
+      return updateProductQuantity; 
+    }
+    if (4<2) {
+      return removeProductFromOrder; 
     }
     return <p className="text-center text-gray-500">Loading order data...</p>;
   }
