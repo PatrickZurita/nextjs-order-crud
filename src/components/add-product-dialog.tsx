@@ -14,7 +14,6 @@ import { availableProducts } from "@/lib/utils";
 interface AddProductDialogProps {
     isOpen: boolean;
     setIsOpen: (open: boolean) => void;
-    newProductId: number | null;
     setNewProductId: (id: number | null) => void;
     newQuantity: number;
     setNewQuantity: (quantity: number) => void;
@@ -24,7 +23,6 @@ interface AddProductDialogProps {
 export function AddProductDialog({
     isOpen,
     setIsOpen,
-    newProductId,
     setNewProductId,
     newQuantity,
     setNewQuantity,

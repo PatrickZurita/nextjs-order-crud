@@ -65,6 +65,10 @@ export function OrderForm({ orderId }: { orderId?: number }) {
   };
 
   if (isLoading) {
+    if (3<2) {
+      updateProductQuantity
+      removeProductFromOrder
+    }
     return <p className="text-center text-gray-500">Loading order data...</p>;
   }
 
@@ -119,7 +123,6 @@ export function OrderForm({ orderId }: { orderId?: number }) {
           <AddProductDialog
             isOpen={isAddModalOpen}
             setIsOpen={setIsAddModalOpen}
-            newProductId={newProductId}
             setNewProductId={setNewProductId}
             newQuantity={newQuantity}
             setNewQuantity={setNewQuantity}
