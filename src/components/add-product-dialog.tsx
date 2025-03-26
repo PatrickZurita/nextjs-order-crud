@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -33,23 +33,23 @@ export function AddProductDialog({
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button>Add Product</Button>
+                <Button>{newProductId ? "Add Product" : "Add Product"}</Button>
             </DialogTrigger>
             <DialogContent>
-                <Label>Select Product</Label>
-                <Select onValueChange={(value) => setNewProductId(Number(value))}>
+                    <DialogTitle>Select Product</DialogTitle>
+                    <Select onValueChange={(value) => setNewProductId(Number(value))}>
                     <SelectTrigger>
                         <SelectValue placeholder="Select a product" />
                     </SelectTrigger>
                     <SelectContent>
                         {availableProducts.map((product) => (
                             <SelectItem key={product.id} value={String(product.id)}>
-                                {product.name} - ${product.price}
+                                {product.name} - ${product.price} 
                             </SelectItem>
                         ))}
                     </SelectContent>
                 </Select>
-
+                        
                 <Label>Quantity</Label>
                 <Input
                     type="number"
