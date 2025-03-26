@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "http://52.91.253.175:8000";
 
 export async function apiClient(endpoint: string, options: RequestInit = {}) {
     const config: RequestInit = {
