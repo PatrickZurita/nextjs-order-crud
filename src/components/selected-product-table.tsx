@@ -7,7 +7,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
@@ -55,7 +55,7 @@ export function SelectedProductsTable({
                                         <Button size="sm" variant="outline">Edit</Button>
                                     </DialogTrigger>
                                     <DialogContent>
-                                        <Label>Edit Quantity</Label>
+                                        <DialogTitle>Edit Quantity</DialogTitle>
                                         <Input
                                             type="number"
                                             value={product.quantity}

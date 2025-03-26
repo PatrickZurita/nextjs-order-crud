@@ -54,23 +54,7 @@ export function OrderForm({ orderId }: { orderId?: number }) {
     }
   };
 
-  const updateProductQuantity = (productId: number, quantity: number) => {
-    setSelectedProducts((prev) =>
-      prev.map((p) => (p.product_id === productId ? { ...p, quantity: Math.max(1, quantity) } : p))
-    );
-  };
-
-  const removeProductFromOrder = (productId: number) => {
-    setSelectedProducts((prev) => prev.filter((p) => p.product_id !== productId));
-  };
-
   if (isLoading) {
-    if (3<2) {
-      return updateProductQuantity;
-    }
-    if (4<2) {
-      return removeProductFromOrder;
-    }
     return <p className="text-center text-gray-500">Loading order data...</p>;
   }
 
