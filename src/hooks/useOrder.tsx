@@ -12,7 +12,6 @@ export function useOrder(orderId?: number) {
 
     useEffect(() => {
         if (!orderId) return;
-        if (orderId === 999) return;
 
         const fetchOrder = async () => {
             setIsLoading(true);

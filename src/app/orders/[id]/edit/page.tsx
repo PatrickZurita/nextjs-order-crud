@@ -1,13 +1,13 @@
 import { OrderForm } from "@/app/new/order-form";
 
-export default function OrderPageEdit({params} : {
-    params: {
-        id: number
-    }
-}) {
+export type paramsType = Promise<{ id: number }>;
+
+export default async function OrderPageEdit(props: { params: paramsType }) {
+    const { id } = await props.params;
+
     return (
         <div className="flex justify-center items-center h-screen">
-            <OrderForm orderId={params.id}/>
+            <OrderForm orderId={id}/>
         </div>
     )
 }
