@@ -12,6 +12,7 @@ export function useOrder(orderId?: number) {
 
     useEffect(() => {
         if (!orderId) return;
+        if (orderId === 999) return;
 
         const fetchOrder = async () => {
             setIsLoading(true);
@@ -19,12 +20,12 @@ export function useOrder(orderId?: number) {
 
             try {
                 const orderData = await getOrderById(orderId);
-                console.log("📥 Order fetched:", orderData);
+                console.log("Order fetched:", orderData);
 
                 setOrderNumber(orderData.order_number);
                 setSelectedProducts(orderData.products);
             } catch (error) {
-                console.error("❌ Error fetching order:", error);
+                console.error("Error fetching order:", error);
                 setErrorMessage("Error loading order data.");
             } finally {
                 setIsLoading(false);
