@@ -3,7 +3,7 @@ import { ModeToggle } from "./theme-toggle-button";
 
 function Navbar() {
   return (
-    <nav className="flex justify-between py-5">
+    <nav className="flex justify-between items-center py-5 px-6">
       <Link href="/">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
           Orders App
@@ -11,7 +11,7 @@ function Navbar() {
       </Link>
 
       <div className="flex gap-x-2 items-center">
-        
+
         <ModeToggle />
       </div>
     </nav>

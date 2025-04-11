@@ -42,8 +42,8 @@ export function SelectedProductsTable({
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {selectedProducts.map((product) => (
-                        <TableRow key={product.product_id}>
+                    {selectedProducts.map((product, index) => (
+                        <TableRow key={index}>
                             <TableCell>{product.product_id}</TableCell>
                             <TableCell>{product.name}</TableCell>
                             <TableCell>${product.unit_price}</TableCell>
@@ -60,10 +60,7 @@ export function SelectedProductsTable({
                                             type="number"
                                             value={product.quantity}
                                             onChange={(e) =>
-                                                updateProductQuantity(
-                                                    product.product_id,
-                                                    Number(e.target.value)
-                                                )
+                                                updateProductQuantity(product.product_id, Number(e.target.value))
                                             }
                                             className="w-16"
                                         />

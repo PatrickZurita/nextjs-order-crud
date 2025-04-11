@@ -30,31 +30,41 @@ export function AddProductDialog({
     setNewQuantity,
     addProductToOrder,
 }: AddProductDialogProps) {
+
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = Number(e.target.value);
+        if (value < 1) {
+            value = 1;
+        }
+        setNewQuantity(value);
+    };
+
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button>{newProductId ? "Add Product" : "Add Product"}</Button>
             </DialogTrigger>
             <DialogContent>
-                    <DialogTitle>Select Product</DialogTitle>
-                    <Select onValueChange={(value) => setNewProductId(Number(value))}>
+                <DialogTitle>Select Product</DialogTitle>
+                <Select onValueChange={(value) => setNewProductId(Number(value))}>
                     <SelectTrigger>
                         <SelectValue placeholder="Select a product" />
                     </SelectTrigger>
                     <SelectContent>
                         {availableProducts.map((product) => (
                             <SelectItem key={product.id} value={String(product.id)}>
-                                {product.name} - ${product.price} 
+                                {product.name} - ${product.price}
                             </SelectItem>
                         ))}
                     </SelectContent>
                 </Select>
-                        
+
                 <Label>Quantity</Label>
                 <Input
                     type="number"
                     value={newQuantity}
-                    onChange={(e) => setNewQuantity(Number(e.target.value))}
+                    onChange={handleQuantityChange}
+                    min={1}
                     className="w-16"
                 />
 

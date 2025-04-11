@@ -11,10 +11,10 @@ export function useOrders() {
         const fetchOrders = async () => {
             try {
                 const data = await getOrders();
-                console.log("📥 Orders fetched:", data);
+                console.log("Orders fetched:", data);
                 setOrders(data);
             } catch (error) {
-                console.error("❌ Error fetching orders:", error);
+                console.error("Error fetching orders:", error);
                 setError("Error loading orders.");
             } finally {
                 setLoading(false);

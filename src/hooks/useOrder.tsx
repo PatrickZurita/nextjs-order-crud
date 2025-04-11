@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getOrderById, createOrder, updateOrder } from "@/services/orderService";
 import { Order, OrderPayload } from "@/types/order";
 import { useRouter } from "next/navigation";
+import { availableProducts } from "@/lib/utils";
 
 export function useOrder(orderId?: number) {
     const router = useRouter();
@@ -22,7 +23,16 @@ export function useOrder(orderId?: number) {
                 console.log("Order fetched:", orderData);
 
                 setOrderNumber(orderData.order_number);
-                setSelectedProducts(orderData.products);
+
+                const enrichedProducts = orderData.products.map((p: any) => {
+                    const productInfo = availableProducts.find(ap => ap.id === p.product_id);
+                    return {
+                        ...p,
+                        name: productInfo?.name || "(Unknown Product)",
+                    };
+                });
+
+                setSelectedProducts(enrichedProducts);
             } catch (error) {
                 console.error("Error fetching order:", error);
                 setErrorMessage("Error loading order data.");
@@ -44,20 +54,20 @@ export function useOrder(orderId?: number) {
             products: selectedProducts,
         };
 
-        console.log("🚀 Sending order:", orderData);
+        console.log("Sending order:", orderData);
 
         try {
             if (orderId) {
                 await updateOrder(orderId, orderData);
-                console.log(`✅ Order ${orderId} updated successfully`);
+                console.log(`Order ${orderId} updated successfully`);
             } else {
                 await createOrder(orderData);
-                console.log("✅ Order created successfully");
+                console.log("Order created successfully");
             }
 
             router.push("/");
         } catch (error) {
-            console.error("❌ Error sending order:", error);
+            console.error("Error sending order:", error);
             setErrorMessage(`Error ${orderId ? "updating" : "creating"} order.`);
         }
     };

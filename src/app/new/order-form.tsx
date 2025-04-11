@@ -14,9 +14,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { availableProducts } from "@/lib/utils";
-import { useOrder } from "@/hooks/useOrder";
 import { AddProductDialog } from "@/components/add-product-dialog";
 import { SelectedProductsTable } from "@/components/selected-product-table";
+import { useOrder } from "@/hooks/useOrder";
 
 export function OrderForm({ orderId }: { orderId?: number }) {
   const router = useRouter();
@@ -37,7 +37,9 @@ export function OrderForm({ orderId }: { orderId?: number }) {
 
   const addProductToOrder = () => {
     if (newProductId === null) return;
+
     const product = availableProducts.find((p) => p.id === newProductId);
+
     if (product) {
       setSelectedProducts((prev) => [
         ...prev,
@@ -48,11 +50,13 @@ export function OrderForm({ orderId }: { orderId?: number }) {
           quantity: newQuantity,
         },
       ]);
+
       setIsAddModalOpen(false);
       setNewProductId(null);
       setNewQuantity(1);
     }
   };
+
 
   if (isLoading) {
     return <p className="text-center text-gray-500">Loading order data...</p>;
@@ -93,7 +97,7 @@ export function OrderForm({ orderId }: { orderId?: number }) {
               />
             </div>
 
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex flex-col space-y-1.5 mb-4">
               <Label htmlFor="final-price">Final Price</Label>
               <Input
                 id="final-price"

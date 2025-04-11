@@ -13,15 +13,15 @@ import { buttonVariants } from "@/components/ui/button";
 
 export function OrderTable({ orders, setOrders }: OrderTableProps) {
   return (
-    <Table>
+    <Table className="min-w-full">
       <TableHeader>
         <TableRow>
-          <TableHead>ID</TableHead>
-          <TableHead>Order #</TableHead>
-          <TableHead>Date</TableHead>
-          <TableHead># Products</TableHead>
-          <TableHead>Final Price</TableHead>
-          <TableHead>Options</TableHead>
+          <TableHead className="text-left">ID</TableHead>
+          <TableHead className="text-left">Order #</TableHead>
+          <TableHead className="text-left">Date</TableHead>
+          <TableHead className="text-center"># Products</TableHead>
+          <TableHead className="text-center">Final Price</TableHead>
+          <TableHead className="text-center">Options</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -31,9 +31,9 @@ export function OrderTable({ orders, setOrders }: OrderTableProps) {
               <TableCell>{order.id}</TableCell>
               <TableCell>{order.order_number}</TableCell>
               <TableCell>{order.date}</TableCell>
-              <TableCell>{order.products?.length || 0}</TableCell>
-              <TableCell>${order.final_price}</TableCell>
-              <TableCell className="flex gap-2">
+              <TableCell className="text-center">{order.products?.length || 0}</TableCell>
+              <TableCell className="text-center">${order.final_price}</TableCell>
+              <TableCell className="flex justify-center gap-2">
                 <Link
                   href={`/orders/${order.id}/edit`}
                   className={buttonVariants({ variant: "secondary" })}
