@@ -30,3 +30,7 @@ export interface OrderTableProps {
     orders: Order[];
     setOrders: React.Dispatch<React.SetStateAction<Order[]>>;
 }
+
+export interface SelectedOrderProduct extends OrderProduct {
+    internalId: string;
+}

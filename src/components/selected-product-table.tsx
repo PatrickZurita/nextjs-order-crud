@@ -10,16 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { SelectedOrderProduct } from "@/types/order";
 
 interface SelectedProductsTableProps {
-    selectedProducts: {
-        product_id: number;
-        name: string;
-        unit_price: number;
-        quantity: number;
-    }[];
-    updateProductQuantity: (productId: number, quantity: number) => void;
-    removeProductFromOrder: (productId: number) => void;
+    selectedProducts: SelectedOrderProduct[];
+    updateProductQuantity: (internalId: string, quantity: number) => void;
+    removeProductFromOrder: (internalId: string) => void;
 }
 
 export function SelectedProductsTable({
@@ -42,8 +38,8 @@ export function SelectedProductsTable({
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {selectedProducts.map((product, index) => (
-                        <TableRow key={index}>
+                    {selectedProducts.map((product) => (
+                        <TableRow key={product.internalId}>
                             <TableCell>{product.product_id}</TableCell>
                             <TableCell>{product.name}</TableCell>
                             <TableCell>${product.unit_price}</TableCell>
@@ -58,22 +54,22 @@ export function SelectedProductsTable({
                                         <DialogTitle>Edit Quantity</DialogTitle>
                                         <Input
                                             type="number"
+                                            min={1}
                                             value={product.quantity}
-                                            onChange={(e) =>
-                                                updateProductQuantity(product.product_id, Number(e.target.value))
-                                            }
+                                            onChange={(e) => {
+                                                const value = Math.max(1, Number(e.target.value));
+                                                updateProductQuantity(product.internalId, value);
+                                            }}
                                             className="w-16"
                                         />
-                                        <Button onClick={() => console.log("Product edited:", product)}>
-                                            Confirm
-                                        </Button>
+                                        <Button>Confirm</Button>
                                     </DialogContent>
                                 </Dialog>
 
                                 <Button
                                     size="sm"
                                     variant="destructive"
-                                    onClick={() => removeProductFromOrder(product.product_id)}
+                                    onClick={() => removeProductFromOrder(product.internalId)}
                                 >
                                     Remove
                                 </Button>
@@ -81,6 +77,7 @@ export function SelectedProductsTable({
                         </TableRow>
                     ))}
                 </TableBody>
+
             </Table>
         </div>
     );

@@ -17,6 +17,7 @@ import { availableProducts } from "@/lib/utils";
 import { AddProductDialog } from "@/components/add-product-dialog";
 import { SelectedProductsTable } from "@/components/selected-product-table";
 import { useOrder } from "@/hooks/useOrder";
+import { v4 as uuidv4 } from "uuid";
 
 export function OrderForm({ orderId }: { orderId?: number }) {
   const router = useRouter();
@@ -39,24 +40,35 @@ export function OrderForm({ orderId }: { orderId?: number }) {
     if (newProductId === null) return;
 
     const product = availableProducts.find((p) => p.id === newProductId);
+    if (!product) return;
 
-    if (product) {
-      setSelectedProducts((prev) => [
-        ...prev,
-        {
-          product_id: product.id,
-          name: product.name,
-          unit_price: product.price,
-          quantity: newQuantity,
-        },
-      ]);
+    setSelectedProducts((prev) => {
+      const existingProduct = prev.find((p) => p.product_id === product.id);
 
-      setIsAddModalOpen(false);
-      setNewProductId(null);
-      setNewQuantity(1);
-    }
+      if (existingProduct) {
+        return prev.map((p) =>
+          p.product_id === product.id
+            ? { ...p, quantity: p.quantity + newQuantity }
+            : p
+        );
+      } else {
+        return [
+          ...prev,
+          {
+            internalId: uuidv4(),
+            product_id: product.id,
+            name: product.name,
+            unit_price: product.price,
+            quantity: newQuantity,
+          },
+        ];
+      }
+    });
+
+    setIsAddModalOpen(false);
+    setNewProductId(null);
+    setNewQuantity(1);
   };
-
 
   if (isLoading) {
     return <p className="text-center text-gray-500">Loading order data...</p>;
@@ -122,13 +134,14 @@ export function OrderForm({ orderId }: { orderId?: number }) {
 
           <SelectedProductsTable
             selectedProducts={selectedProducts}
-            updateProductQuantity={(id, qty) =>
+            updateProductQuantity={(internalId, qty) =>
               setSelectedProducts((prev) =>
-                prev.map((p) => (p.product_id === id ? { ...p, quantity: qty } : p))
+                prev.map((p) => (p.internalId === internalId ? { ...p, quantity: qty } : p))
               )
             }
-            removeProductFromOrder={(id) =>
-              setSelectedProducts((prev) => prev.filter((p) => p.product_id !== id))
+
+            removeProductFromOrder={(internalId) =>
+              setSelectedProducts((prev) => prev.filter((p) => p.internalId !== internalId))
             }
           />
         </form>

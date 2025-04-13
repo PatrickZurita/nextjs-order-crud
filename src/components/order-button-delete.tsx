@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { deleteOrder } from "@/services/orderService";
 import { OrderButtonDeleteProps } from "@/types/order";
 
@@ -32,7 +32,7 @@ export function OrderButtonDelete({
   };
 
   return (
-    <Button variant="destructive" onClick={handleDelete} disabled={loading}>
+    <Button className={buttonVariants({ variant: "secondary" })} variant="destructive" onClick={handleDelete} disabled={loading}>
       {loading ? "Deleting..." : "Delete"}
     </Button>
   );

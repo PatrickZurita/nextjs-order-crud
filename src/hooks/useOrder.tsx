@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { getOrderById, createOrder, updateOrder } from "@/services/orderService";
-import { Order, OrderPayload } from "@/types/order";
+import { OrderPayload, SelectedOrderProduct } from "@/types/order";
+import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import { availableProducts } from "@/lib/utils";
 
 export function useOrder(orderId?: number) {
     const router = useRouter();
     const [orderNumber, setOrderNumber] = useState<string>("");
-    const [selectedProducts, setSelectedProducts] = useState<Order["products"]>([]);
+    const [selectedProducts, setSelectedProducts] = useState<SelectedOrderProduct[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -24,11 +25,12 @@ export function useOrder(orderId?: number) {
 
                 setOrderNumber(orderData.order_number);
 
-                const enrichedProducts = orderData.products.map((p: any) => {
+                const enrichedProducts: SelectedOrderProduct[] = orderData.products.map((p: any) => {
                     const productInfo = availableProducts.find(ap => ap.id === p.product_id);
                     return {
                         ...p,
                         name: productInfo?.name || "(Unknown Product)",
+                        internalId: uuidv4(),
                     };
                 });
 
@@ -47,11 +49,25 @@ export function useOrder(orderId?: number) {
     const handleSubmit = async () => {
         setErrorMessage(null);
 
+        if (!orderNumber.trim()) {
+            setErrorMessage("Order number is required.");
+            return;
+        }
+
+        if (selectedProducts.length === 0) {
+            setErrorMessage("At least one product must be selected.");
+            return;
+        }
+
         const orderData: OrderPayload = {
             order_number: orderNumber,
             date: new Date().toISOString().split("T")[0],
             final_price: selectedProducts.reduce((sum, p) => sum + p.unit_price * p.quantity, 0),
-            products: selectedProducts,
+            products: selectedProducts.map(({ product_id, quantity, unit_price }) => ({
+                product_id,
+                quantity,
+                unit_price,
+            })),
         };
 
         console.log("Sending order:", orderData);
