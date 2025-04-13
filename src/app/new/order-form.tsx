@@ -14,8 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { availableProducts } from "@/lib/utils";
-import { AddProductDialog } from "@/components/add-product-dialog";
-import { SelectedProductsTable } from "@/components/selected-product-table";
+import { AddProductDialog } from "@/components/orders/add-product-dialog";
+import { SelectedProductsTable } from "@/components/orders/selected-product-table";
 import { useOrder } from "@/hooks/useOrder";
 import { v4 as uuidv4 } from "uuid";
 

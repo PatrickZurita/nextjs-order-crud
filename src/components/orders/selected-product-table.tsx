@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { SelectedOrderProduct } from "@/types/order";
+import { EditProductDialog } from "./edit-product-dialog";
 
 interface SelectedProductsTableProps {
     selectedProducts: SelectedOrderProduct[];
@@ -46,25 +47,10 @@ export function SelectedProductsTable({
                             <TableCell>{product.quantity}</TableCell>
                             <TableCell>${product.unit_price * product.quantity}</TableCell>
                             <TableCell className="flex gap-2">
-                                <Dialog>
-                                    <DialogTrigger asChild>
-                                        <Button size="sm" variant="outline">Edit</Button>
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <DialogTitle>Edit Quantity</DialogTitle>
-                                        <Input
-                                            type="number"
-                                            min={1}
-                                            value={product.quantity}
-                                            onChange={(e) => {
-                                                const value = Math.max(1, Number(e.target.value));
-                                                updateProductQuantity(product.internalId, value);
-                                            }}
-                                            className="w-16"
-                                        />
-                                        <Button>Confirm</Button>
-                                    </DialogContent>
-                                </Dialog>
+                                <EditProductDialog
+                                    product={product}
+                                    onConfirm={updateProductQuantity}
+                                />
 
                                 <Button
                                     size="sm"

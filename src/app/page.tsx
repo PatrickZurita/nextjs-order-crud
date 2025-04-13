@@ -1,6 +1,6 @@
 "use client";
 
-import { OrderTable } from "@/components/order-table";
+import { OrderTable } from "@/components/orders/order-table";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { useOrders } from "@/hooks/useFetchOrders";

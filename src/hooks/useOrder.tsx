@@ -4,6 +4,7 @@ import { OrderPayload, SelectedOrderProduct } from "@/types/order";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import { availableProducts } from "@/lib/utils";
+import { notifyError, notifySuccess } from "@/lib/toast";
 
 export function useOrder(orderId?: number) {
     const router = useRouter();
@@ -76,14 +77,17 @@ export function useOrder(orderId?: number) {
             if (orderId) {
                 await updateOrder(orderId, orderData);
                 console.log(`Order ${orderId} updated successfully`);
+                notifySuccess("Order updated", `Order #${orderNumber} was updated successfully.`);
             } else {
                 await createOrder(orderData);
                 console.log("Order created successfully");
+                notifySuccess("Order created", `Order #${orderNumber} was created successfully.`);
             }
 
             router.push("/");
         } catch (error) {
             console.error("Error sending order:", error);
+            notifyError("Error", "Something went wrong while saving the order.");
             setErrorMessage(`Error ${orderId ? "updating" : "creating"} order.`);
         }
     };
